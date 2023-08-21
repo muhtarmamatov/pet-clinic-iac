@@ -43,7 +43,7 @@ pipeline {
         stage('Checkout Pet Clinic application') {
             steps {
                 // Clean workspace before checking out code
-                cleanWs()
+                deleteDir()
                 checkout(
                         scm: [
                             $class: 'GitSCM',
