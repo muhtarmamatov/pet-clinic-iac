@@ -13,7 +13,7 @@ pipeline {
 
     
     tools {
-        gradle "${VERSION}"
+        gradle "${GRADLE_VERSION}"
         jdk "${JAVA_VERSION}"
         maven "${MAVEN_VERSION}"
     }
