@@ -63,5 +63,15 @@ pipeline {
                     )
             }
         }
+        stage('Unit Test and Integration Test Pet Clinic') {
+            steps {
+                script {
+                    def mavenCmd = tool(name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation') ?: 'mvn'
+                    
+                    // Run Maven tests in the workspace directory
+                    sh "${mavenCmd} test"
+                }
+            }
+        }
     }
 }
