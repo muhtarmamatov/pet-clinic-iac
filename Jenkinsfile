@@ -40,5 +40,28 @@ pipeline {
                 }
             }
         }
+        stage('Checkout Pet Clinic application') {
+            steps {
+                // Clean workspace before checking out code
+                cleanWs()
+                checkout(
+                        scm: [
+                            $class: 'GitSCM',
+                            branches: [
+                                [name: '*/main'],
+                                [name: '*/Development'],
+                                [name: '*/Test'],
+                                [name: '*/Production']
+                            ],
+                            userRemoteConfigs: [
+                                [
+                                    credentialsId: 'jenkins_ci.hl.airmanas.llc',
+                                    url: 'git@github.com:muhtarmamatov/spring-petclinic.git'
+                                ]
+                            ]
+                        ]
+                    )
+            }
+        }
     }
 }
