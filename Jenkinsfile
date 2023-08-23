@@ -103,14 +103,14 @@ pipeline {
                         }
                     }
         }
-        stage("Pushing docker image to Docker hub") {
+        stage("Pushing docker image to Docker Hub") {
             steps {
                 script {
                     withDockerRegistry(
                         credentialsId: "docker hub login password", // Replace with your credentials ID
                         url: "https://index.docker.io/v1/"
                     ) {
-                        docker.image(env.FULL_IMAGE_NAME).push()
+                        docker.image(FULL_IMAGE_NAME).push()
                     }
                 }
             }
