@@ -67,7 +67,7 @@ pipeline {
             steps {
                 script {
                     // Run Maven tests in the workspace directory
-                    sh "mvn test"
+                    sh "mvn test -X"
                 }
             }
         }
