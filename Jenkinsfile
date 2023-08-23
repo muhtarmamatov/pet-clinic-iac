@@ -76,21 +76,30 @@ pipeline {
                 }
             }
         }
-        stage('Build Pet Clinic Application Docker Image'){
-            steps{
-                script{
-                    def imageName = "muktarbek/pet-clinic"
-                    def dockerfile = "Dockerfile"
+        stage('Build Pet Clinic Application Docker Image') {
+                    steps {
+                        script {
+                            def imageName = "muktarbek/pet-clinic"
+                            def dockerfile = "Dockerfile"
 
-                    def version = sh(script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
-                    def extract_version = sh(script: 'echo "$version" | sed \'s/-.*$//\'', returnStdout: true).trim()
-                    def imageTag = "${extract_version}.${env.BUILD_NUMBER}"
+                            // Run Maven to get project version
+                            def version = sh(script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
 
-                    def fullImageName = "${imageName}:${imageTag}"
+                            // Extract version without '-SNAPSHOT' using substring
+                            def extract_version = version.substring(0, version.indexOf('-'))
 
-                    docker.build(fullImageName, "-f ${dockerfile} .")
+                            // Create image tag using extracted version and BUILD_NUMBER
+                            def imageTag = "${extract_version}.${env.BUILD_NUMBER}"
+
+                            def fullImageName = "${imageName}:${imageTag}"
+
+                            echo "Tag extracted version: ${extract_version}"
+                            echo "Docker image tag name: ${fullImageName}"
+
+                            // Build Docker image and tag with version
+                            docker.build(fullImageName, "-f ${dockerfile} .")
+                        }
+                    }
                 }
-            }
-        }
     }
 }
