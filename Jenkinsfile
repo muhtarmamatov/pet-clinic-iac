@@ -86,7 +86,7 @@ pipeline {
                     def extract_version = sh(script: 'echo "$version" | sed \'s/-.*$//\'', returnStdout: true).trim()
                     def imageTag = "${extract_version}.${env.BUILD_NUMBER}"
 
-                    def fullImageName = "${dockerImageName}:${imageTag}"
+                    def fullImageName = "${imageName}:${imageTag}"
 
                     docker.build(fullImageName, "-f ${dockerfile} .")
                 }
