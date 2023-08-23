@@ -118,7 +118,7 @@ pipeline {
         stage("Remove Local Docker Image"){
             steps{
                 script{
-                    docker.image(FULL_IMAGE_NAME).remove(force: true)
+                    sh "docker image rm ${FULL_IMAGE_NAME}"
                 }
             }
         }
