@@ -8,7 +8,7 @@ pipeline {
     environment {
         GRADLE_VERSION = '8.1' // Set the desired Gradle version here
         JAVA_VERSION = 'Java17'
-        MAVEN_VERSION = '3.3.9'
+        MAVEN_VERSION = '3.9.4'
     }
 
     
