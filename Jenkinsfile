@@ -103,7 +103,7 @@ pipeline {
                         }
                     }
         }
-        stage("Push docker image ${FULL_IMAGE_NAME}") {
+        stage("Push docker image" + FULL_IMAGE_NAME) {
             steps {
                 script {
                     withDockerRegistry(
