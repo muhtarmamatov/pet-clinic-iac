@@ -115,6 +115,23 @@ pipeline {
                 }
             }
         }
-
+        stage("Remove Local Docker Image"){
+            steps{
+                script{
+                    docker.image(FULL_IMAGE_NAME).remove(force: true)
+                }
+            }
+        }
+        post {
+        // Clean after build
+            always {
+                cleanWs(cleanWhenNotBuilt: false,
+                        deleteDirs: true,
+                        disableDeferredWipeout: true,
+                        notFailBuild: true,
+                        patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                                [pattern: '.propsfile', type: 'EXCLUDE']])
+            }
+        }
     }
 }
