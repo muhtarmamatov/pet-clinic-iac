@@ -84,7 +84,7 @@ pipeline {
 
                     def version = sh(script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
                     def extract_version = sh(script: 'echo "$version" | sed \'s/-.*$//\'', returnStdout: true).trim()
-                    def imageTag = "${versionFromPom}.${env.BUILD_NUMBER}"
+                    def imageTag = "${extract_version}.${env.BUILD_NUMBER}"
 
                     def fullImageName = "${dockerImageName}:${imageTag}"
 
