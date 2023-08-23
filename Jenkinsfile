@@ -9,6 +9,7 @@ pipeline {
         GRADLE_VERSION = '8.1' // Set the desired Gradle version here
         JAVA_VERSION = 'Java17'
         MAVEN_VERSION = '3.9.4'
+        FULL_IMAGE_NAME = ''
     }
 
     
@@ -96,10 +97,24 @@ pipeline {
                             echo "Tag extracted version: ${extract_version}"
                             echo "Docker image tag name: ${fullImageName}"
 
+                            FULL_IMAGE_NAME = fullImageName
                             // Build Docker image and tag with version
                             docker.build(fullImageName, "-f ${dockerfile} .")
                         }
                     }
+        }
+        stage("Push docker image ${FULL_IMAGE_NAME}") {
+            steps {
+                script {
+                    withDockerRegistry(
+                        credentialsId: "docker hub login password", // Replace with your credentials ID
+                        url: "https://index.docker.io/v1/"
+                    ) {
+                        docker.image(env.FULL_IMAGE_NAME).push()
+                    }
                 }
+            }
+        }
+
     }
 }
