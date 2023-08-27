@@ -10,6 +10,7 @@ pipeline {
         JAVA_VERSION = 'Java17'
         MAVEN_VERSION = '3.9.4'
         FULL_IMAGE_NAME = ''
+        DOCKERTAG = ''
     }
 
     
@@ -97,6 +98,8 @@ pipeline {
                             echo "Tag extracted version: ${extract_version}"
                             echo "Docker image tag name: ${fullImageName}"
 
+                            DOCKERTAG = imageTag
+
                             FULL_IMAGE_NAME = fullImageName
                             // Build Docker image and tag with version
                             docker.build(fullImageName, "-f ${dockerfile} .")
@@ -120,6 +123,12 @@ pipeline {
                 script{
                     sh "docker image rm ${FULL_IMAGE_NAME}"
                 }
+            }
+        }
+        stage("Trigger Manifest Update") {
+            steps {
+                echo 'Triggering Manifest Update Job'
+                build job: 'UpdateManifestJob', parameters: [string(name: 'DOCKERTAG', value: DOCKERTAG)]
             }
         }
     }
