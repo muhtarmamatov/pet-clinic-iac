@@ -126,8 +126,17 @@ pipeline {
             }
         }
         stage("Trigger Manifest Update") {
+            steps{
+                script{
                 echo 'Triggering Manifest Update Job'
-                build job: 'UpdateManifestJob', parameters: [string(name: 'DOCKERTAG', value: DOCKERTAG)]
+                build 'UpdateManifestJob', 
+                parameters: [
+                        [ $class: 'StringParameterValue', name: 'DOCKERTAG', value: DOCKERTAG ]
+                    ]
+                }
+
+            }
+
         }
     }
     post {

@@ -11,7 +11,7 @@ pipeline{
         }
         stage("Parametr Print"){
             steps{
-                sh 'echo Here is the passed parametr ${DOCKERTAG}'
+                echo "Here is the passed parametr from Job1:  ${params.DOCKERTAG}"
             }
         }
     }
