@@ -126,10 +126,8 @@ pipeline {
             }
         }
         stage("Trigger Manifest Update") {
-            steps {
                 echo 'Triggering Manifest Update Job'
                 build job: 'UpdateManifestJob', parameters: [string(name: 'DOCKERTAG', value: DOCKERTAG)]
-            }
         }
     }
     post {
